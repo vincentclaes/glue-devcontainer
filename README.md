@@ -10,7 +10,8 @@ Got inspiration from [aws blog for testing glue](https://aws.amazon.com/blogs/bi
 
 ### Setup
 
-- Install VS Code Remote Development. vscode id: `ms-vscode-remote.vscode-remote-extensionpack`.
+- Open VS Code and install "Remote Development" plugin.
+![remote-development](assets/remote-development.png)
 - CMD + Shift + P > Dev Container: Rebuild and Reopen in Container.
 ![devccontainer](assets/devcontainer.png)
 
