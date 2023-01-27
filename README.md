@@ -1,91 +1,53 @@
 # Glue Devcontainer
 
-## Run glue_script.py from CLI
-```
-PROFILE_NAME=default
-docker run -it -v ~/.aws:/home/glue_user/.aws -v $PWD:/home/glue_user/workspace/ -e AWS_PROFILE=$PROFILE_NAME -e DISABLE_SSL=true --rm -p 4040:4040 -p 18080:18080 --name glue_spark_submit amazon/aws-glue-libs:glue_libs_3.0.0_image_01 spark-submit /home/glue_user/workspace/glue_script.py
+This repo showcases how you can use a VS Code devcontainer to test and debug your Glue 3.0 script locally.
 
-root
-|-- family_name: string
-|-- name: string
-|-- links: array
-|    |-- element: struct
-|    |    |-- note: string
-|    |    |-- url: string
-|-- gender: string
-|-- image: string
-|-- identifiers: array
-|    |-- element: struct
-|    |    |-- scheme: string
-|    |    |-- identifier: string
-|-- other_names: array
-|    |-- element: struct
-|    |    |-- lang: string
-|    |    |-- note: string
-|    |    |-- name: string
-|-- sort_name: string
-|-- images: array
-|    |-- element: struct
-|    |    |-- url: string
-|-- given_name: string
-|-- birth_date: string
-|-- id: string
-|-- contact_details: array
-|    |-- element: struct
-|    |    |-- type: string
-|    |    |-- value: string
-|-- death_date: string
+## Links
 
-```
-
-
+Got inspiration from [aws blog for testing glue](https://aws.amazon.com/blogs/big-data/develop-and-test-aws-glue-version-3-0-jobs-locally-using-a-docker-container) and [vs code devcontainers](https://code.visualstudio.com/docs/devcontainers/containers)
 
 ## VS Code Devcontainer
 
 ### Setup
-With VS Code you can use a docker image as a basis for your development.
 
-- Install VS Code Remote Development. vscode id: `ms-vscode-remote.vscode-remote-extensionpack`
-- CMD + Shift + P > Preferences: Open Workspace Settings (JSON)
-- Add the following JSON:
-```
-{
-    "python.defaultInterpreterPath": "/usr/bin/python3",
-    "python.analysis.extraPaths": [
-        "/home/glue_user/aws-glue-libs/PyGlue.zip:/home/glue_user/spark/python/lib/py4j-0.10.9-src.zip:/home/glue_user/spark/python/",
-    ]
-}
-```
-
-- Start Glue Pyspark shell in a Docker container:
-
-```bash
-AWS_PROFILE=default
-docker run -it -v ~/.aws:/home/glue_user/.aws -v $PWD:/home/glue_user/workspace/ -e AWS_PROFILE=$AWS_PROFILE -e DISABLE_SSL=true --rm -p 4040:4040 -p 18080:18080 --name glue_pyspark amazon/aws-glue-libs:glue_libs_3.0.0_image_01 pyspark 
-```
-- Choose Remote Explorer in the navigation pane, and choose the container `amazon/aws-glue-libs:glue_libs_3.0.0_image_01`.
-- Right-click and choose Attach to Container > Confirm the Pop-up by pressing "Got it"
-- In the left pane, choose "Open folder" > /home/glue_user/workspace
+- Install VS Code Remote Development. vscode id: `ms-vscode-remote.vscode-remote-extensionpack`.
+- CMD + Shift + P > Dev Container: Rebuild and Reopen in Container.
+![devccontainer](assets/devcontainer.png)
 
 ### Run glue_script.py
-- run `spark-submit /home/glue_user/workspace/glue_script.py` from the terminal
-- or you can do Run > Start Without Debugging
+- Open [glue_script.py](glue_script.py) > Run > Start Without Debugging.
+- Or from the terminal run `spark-submit /home/glue_user/workspace/glue_script.py`.
 
 ### Debug glue_script.py
 - Left click to add a breakpoint (red dot) next to the line number you want to inspect.
 - Run > Start Debugging > current file
+- You can inspect variables on the left pane.
+- You can execute statements in the "Debug Console" in the pane below.
 ![debugging](assets/debugging.png)
 
 ### Spark UI
 http://localhost:4041/jobs/
 
-## Run tests in CICD
+### Tests
+
+#### VSCode
+
+- CMD + Shift + P > Python: Configure Tests > pytest > select the folder containing the tests (here root '.')
+- In the testspane on the left you can select your tests and run or debug them.
+![testing](assets/testing.png)
+
+#### CICD
 
 You can run the tests in your CICD system using the following command.
 ```bash
 PROFILE_NAME=default
 docker run -it -v ~/.aws:/home/glue_user/.aws -v $PWD:/home/glue_user/workspace/ -e AWS_PROFILE=$PROFILE_NAME -e DISABLE_SSL=true --rm -p 4040:4040 -p 18080:18080 --name glue_pytest amazon/aws-glue-libs:glue_libs_3.0.0_image_01 -c "python3 -m pytest --disable-warnings"
+```
+<details>
+<summary> Output of command</summary>
 
+
+```bash
 starting org.apache.spark.deploy.history.HistoryServer, logging to /home/glue_user/spark/logs/spark-glue_user-org.apache.spark.deploy.history.HistoryServer-1-1c10b4d7ca53.out
 ====================================================== test session starts =======================================================
 platform linux -- Python 3.7.15, pytest-6.2.3, py-1.11.0, pluggy-0.13.1
@@ -97,3 +59,6 @@ test_glue_script.py .                                                           
 
 ================================================= 1 passed, 1 warning in 20.19s ==================================================
 ```
+
+
+</details>
