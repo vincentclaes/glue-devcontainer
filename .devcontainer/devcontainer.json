@@ -1,0 +1,55 @@
+{
+	"name": "Glue Devcontainer",
+	"build": {
+		// Dockerfile that specific our dev environment.
+		"dockerfile": "./Dockerfile",
+		// context is the project folder that is mounted in the devcontainer.
+		"context": "..",
+	},
+    "containerEnv": {
+        "DISABLE_SSL": "true"
+    },
+	// settings.json file for your workspace.
+	"settings": {
+		"terminal.integrated.shell.linux": "/bin/bash",
+		"python.defaultInterpreterPath": "/usr/bin/python3",
+		"python.analysis.extraPaths": [
+			"/home/glue_user/aws-glue-libs/PyGlue.zip:/home/glue_user/spark/python/lib/py4j-0.10.9-src.zip:/home/glue_user/spark/python/",
+		]
+		// "python.pythonPath": "/usr/local/bin/python",
+		// "python.linting.enabled": true,
+		// "python.linting.pylintEnabled": true,
+		// "python.formatting.autopep8Path": "/usr/local/py-utils/bin/autopep8",
+		// "python.formatting.blackPath": "/usr/local/py-utils/bin/black",
+		// "python.linting.banditPath": "/usr/local/py-utils/bin/bandit",
+		// "python.linting.flake8Path": "/usr/local/py-utils/bin/flake8",
+		// "python.linting.mypyPath": "/usr/local/py-utils/bin/mypy",
+		// "python.linting.pycodestylePath": "/usr/local/py-utils/bin/pycodestyle",
+		// "python.linting.pydocstylePath": "/usr/local/py-utils/bin/pydocstyle",
+		// "python.linting.pylintPath": "/usr/local/py-utils/bin/pylint",
+		// "python.testing.pytestPath": "/usr/local/py-utils/bin/pytest"
+	},
+
+	// Add the IDs of extensions you want installed when the container is created.
+	"extensions": [
+		"ms-python.python",
+		"ms-python.vscode-pylance",
+	],
+
+	// Use 'forwardPorts' to make a list of ports inside the container available locally.
+	"forwardPorts": [4040, 18080],
+
+	// Use 'postCreateCommand' to run commands after the container is created.
+	// "postCreateCommand": "",
+
+	// Comment out to connect as root instead.
+	// "remoteUser": "vscode",
+
+	"mounts": [
+		 "source=${localEnv:HOME}/.aws,target=/home/glue_user/.aws,type=bind,consistency=cached",
+		//  "source=${localEnv:HOME}/.config,target=/home/vscode/.config,type=bind,consistency=cached",
+		//  "source=${localEnv:HOME}/.ssh,target=/home/vscode/.ssh,type=bind,consistency=cached"
+	  ]
+}
+
+// docker run -it -v ~/.aws:/home/glue_user/.aws -v $PWD:/home/glue_user/workspace/ -e AWS_PROFILE=$AWS_PROFILE -e DISABLE_SSL=true --rm -p 4040:4040 -p 18080:18080 --name glue_pyspark amazon/aws-glue-libs:glue_libs_3.0.0_image_01 pyspark 
