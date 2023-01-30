@@ -10,6 +10,7 @@ Got inspiration from [aws blog for testing glue](https://aws.amazon.com/blogs/bi
 
 ### Setup
 
+- Make sure Docker is running on your laptop.
 - Open VS Code and install "Remote Development" plugin.
 ![remote-development](assets/remote-development.png)
 - CMD + Shift + P > Dev Container: Rebuild and Reopen in Container.
