@@ -6,9 +6,8 @@ This repo showcases how you can use a VS Code devcontainer to test and debug you
 
 Got inspiration from [aws blog for testing glue](https://aws.amazon.com/blogs/big-data/develop-and-test-aws-glue-version-3-0-jobs-locally-using-a-docker-container) and [vs code devcontainers](https://code.visualstudio.com/docs/devcontainers/containers)
 
-## VS Code Devcontainer
 
-### Setup
+## Setup
 
 - Make sure Docker is running on your laptop.
 - Open VS Code and install "Remote Development" plugin.
@@ -16,29 +15,29 @@ Got inspiration from [aws blog for testing glue](https://aws.amazon.com/blogs/bi
 - CMD + Shift + P > Dev Container: Rebuild and Reopen in Container.
 ![devccontainer](assets/devcontainer.png)
 
-### Run glue_script.py
+## Run glue_script.py
 - Open [glue_script.py](glue_script.py) > Run > Start Without Debugging.
 - Or from the terminal run `spark-submit /home/glue_user/workspace/glue_script.py`.
 
-### Debug glue_script.py
+## Debug glue_script.py
 - Left click to add a breakpoint (red dot) next to the line number you want to inspect.
 - Run > Start Debugging > current file
 - You can inspect variables on the left pane.
 - You can execute statements in the "Debug Console" in the pane below.
 ![debugging](assets/debugging.png)
 
-### Spark UI
-http://localhost:4041/jobs/
-
-### Tests
-
-#### VSCode
+## Tests
 
 - CMD + Shift + P > Python: Configure Tests > pytest > select the folder containing the tests (here root '.')
 - In the testspane on the left you can select your tests and run or debug them.
 ![testing](assets/testing.png)
 
-#### CICD
+
+## Spark UI
+http://localhost:4041/jobs/
+
+
+## CICD
 
 You can run the tests in your CICD system using the following command.
 ```bash
