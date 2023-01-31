@@ -1,6 +1,6 @@
 # Glue Devcontainer
 
-This repo showcases how you can use a VS Code devcontainer to test and debug your Glue 3.0 script locally.
+This repo showcases how you can use a VS Code devcontainer to test and debug your Glue script locally.
 
 ## Links
 
